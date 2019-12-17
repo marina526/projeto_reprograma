@@ -16,7 +16,16 @@ const getAll = (request, response) => {
 
 const getById = (request, response) => {
   const id = request.params.id
+  const tipo = request.params.tipo
 
+  // const transacaoModel.getById(tipo, (entrada, saida)) =>{
+  //  var opcoes = [entrada, saida]
+  //  if(tipo == entrada){
+  //    return opcoes[0];
+  //  }else if(tipo == saida){
+  //    return opcoes[1];
+  //  }
+  // }
   return transacaoModel.findById(id, (error, transacao) => {
     if (error) {
       return response.status(500).send(error)
@@ -81,29 +90,6 @@ const update = (request, response) => {
   )
 }
 
-const treinar = async (request, response) => {
-  const id = request.params.id
-  const options = { new: true }
-  const pokemon = await pokemonsModel.findById(id, 'nivel')
-  const novoNivel = calcularNivel(request.body.inicio, request.body.fim, pokemon.nivel)
-
-  pokemonsModel.findByIdAndUpdate(
-    id,
-    { nivel: novoNivel },
-    options,
-    (error, pokemon) => {
-      if (error) {
-        return response.status(500).send(error)
-      }
-
-      if (pokemon) {
-        return response.status(200).send(pokemon)
-      }
-
-      return response.status(404).send('Pokémon não encontrado')
-    }
-  )
-}
 
 module.exports = {
   getAll,
