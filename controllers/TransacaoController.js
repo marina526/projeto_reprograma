@@ -16,16 +16,7 @@ const getAll = (request, response) => {
 
 const getById = (request, response) => {
   const id = request.params.id
-  const tipo = request.params.tipo
 
-  // const transacaoModel.getById(tipo, (entrada, saida)) =>{
-  //  var opcoes = [entrada, saida]
-  //  if(tipo == entrada){
-  //    return opcoes[0];
-  //  }else if(tipo == saida){
-  //    return opcoes[1];
-  //  }
-  // }
   return transacaoModel.findById(id, (error, transacao) => {
     if (error) {
       return response.status(500).send(error)
@@ -90,11 +81,36 @@ const update = (request, response) => {
   )
 }
 
+const total =  (request, response) => {
+  transacaoModel.find((error, transacao) => {
+    if (error) {
+      return response.status(500).send(error)
+    }
+    let totalEntrada = 0
+    let totalSaida = 0
+
+    transacao.forEach( transacao => {
+      if(transacao.tipo == "Entrada"){
+        totalEntrada = totalEntrada + transacao.valor
+      }else{
+        totalSaida = totalSaida + transacao.valor;
+      }
+
+    })
+        let totalGasto = totalEntrada - totalSaida;
+        
+        console.log(totalGasto)
+
+    return response.send({"totalGasto": totalGasto});
+
+  })
+}
 
 module.exports = {
   getAll,
   getById,
   add,
   remove,
-  update
+  update, 
+  total
 }

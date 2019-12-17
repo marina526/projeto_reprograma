@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const TransacaoSchema = new Schema({
-  _id: { type: mongoose.Schema.Types.ObjectId, auto: true, required: false },
-  valor: { type: Number, required: false },
-  data: { type: Date, required: false },
-  descricao: { type: String, required: false },
+  _id: { type: mongoose.Schema.Types.ObjectId, auto: true, required: true },
+  valor: { type: Number, required: true },
+  data: { type: Date, required: true },
+  descricao: { type: String, required: true },
   destinatario: { type: String, required: false },
   remetente: { type: String, required: false },
-  tipo: { type: String, required: false },
-  grupo: { type: String, required: false },
+  tipo: { type: String, required: true },
+  grupo: { type: String, required: true }
 })
 
 const transacaoModel = mongoose.model('transacao', TransacaoSchema);
